@@ -26,6 +26,7 @@ import xbmcgui
 class myPlayer(xbmc.Player):
     def __init__(self):
         xbmc.Player.__init__(self)
+        self.stopped = False
         self.cwd = xbmcaddon.Addon().getAddonInfo('path').decode('utf-8')
         with open(self.cwd + '\\playlistdir.txt') as playlistDirFile:
             playlistDirPath = playlistDirFile.readline().decode('utf-8').strip()
@@ -74,10 +75,15 @@ class myPlayer(xbmc.Player):
         with open(self.cwd + '\\playlist.json', 'w') as playlistFile:
             json.dump(self.playlistDict, playlistFile)
 
+    def onPlayBackStopped(self):
+        self.stopped = True
+
 
 busyDialog = xbmcgui.DialogBusy()
 busyDialog.create()
 player = myPlayer()
 busyDialog.close()
-while True:
+del busyDialog
+while not player.stopped:
     xbmc.sleep(500)
+del player
