@@ -6,12 +6,6 @@
 # this makes it semi sorted by order of last played time, but still sufficiently shuffled by the shuffle, heapify, and sliced shuffles
 # when a file ends playback, update it's last played time and write it to the json file
 
-# TODO: make it recognize skipping a video (next) as ending playback
-# figure out WHY it only added first episode
-# clear the playlist before adding to it
-# test if the listitem title stuff worked
-
-
 import heapq
 import json
 import random
@@ -40,7 +34,6 @@ class myPlayer(xbmc.Player):
                     playlistObj.append((self.playlistDict[filepath], filepath))
                 else:
                     playlistObj.append((0, filepath))
-
         random.shuffle(playlistObj)
         heapq.heapify(playlistObj)
         lastTime = 0
